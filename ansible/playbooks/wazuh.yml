@@ -1,0 +1,14 @@
+---
+- name: Prepare Wazuh server host
+  hosts: wazuh_server
+  become: true
+  gather_facts: true
+
+  roles:
+    - geerlingguy.docker
+    - wazuh-server
+
+  tasks:
+    - name: Provide back debug output containing server address and port
+      debug:
+        msg: "Wazuh server is running at {{ ansible_host }}:1514"

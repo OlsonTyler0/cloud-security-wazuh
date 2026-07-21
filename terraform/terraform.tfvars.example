@@ -1,0 +1,13 @@
+proxmox_user              = "terraform@pam"
+proxmox_api_url           = "https://your-proxmox-host:8006/api2/json"
+proxmox_api_token_id      = "terraform@pam!token"
+proxmox_api_token_secret  = "your-token-secret"
+proxmox_node              = "pve"
+template_name            = "ubuntu-cloud-template"
+storage_pool             = "local-lvm"
+wazuh_server_id          = 201
+wazuh_server_name        = "wazuh-server"
+wazuh_server_user_password = "changeme"
+endpoint_vm_name         = "web-endpoint"
+endpoint_vm_user_password = "changeme"
+ssh_key                  = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleKey" 

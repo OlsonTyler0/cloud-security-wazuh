@@ -1,0 +1,8 @@
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/.terraform.lock.hcl
+*.log
+.ansible
+.vagrant
+.claude
+CLAUDE.md
