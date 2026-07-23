@@ -17,12 +17,6 @@
     dest: /opt/wazuh-docker
     version: main
 
-- name: Wait for generated certificate files to exist
-  ansible.builtin.wait_for:
-    path: /opt/wazuh-docker/single-node/config/certs/indexer-key.pem
-    state: present
-    timeout: 600
-
 # Step 4: Start the Wazuh single-node stack in detached mode
 - name: Start the Wazuh single-node stack
   community.docker.docker_compose_v2:
