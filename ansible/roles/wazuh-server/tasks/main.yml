@@ -15,13 +15,34 @@
   ansible.builtin.git:
     repo: https://github.com/wazuh/wazuh-docker.git
     dest: /opt/wazuh-docker
-    version: main
+    version: origin/4.14.6
+    force: true
+    update: true
 
-- name: Replace Wazuh image tags with a published version
-  ansible.builtin.replace:
-    path: /opt/wazuh-docker/single-node/docker-compose.yml
-    regexp: 'wazuh/wazuh-(manager|indexer|dashboard):5\.1\.0'
-    replace: 'wazuh/wazuh-\1:4.14.6'
+- name: Check for the Wazuh certificate generator compose file
+  ansible.builtin.stat:
+    path: /opt/wazuh-docker/single-node/generate-indexer-certs.yml
+  register: wazuh_cert_generator_file
+
+- name: Fail if the generator compose file is missing
+  ansible.builtin.fail:
+    msg: "The Wazuh certificate generator compose file was not found in the checked-out release."
+  when: not wazuh_cert_generator_file.stat.exists
+
+- name: Generate Wazuh indexer certificates
+  community.docker.docker_compose_v2:
+    project_src: /opt/wazuh-docker/single-node
+    files:
+      - generate-indexer-certs.yml
+    services:
+      - generator
+    state: present
+
+- name: Wait for the generated certificate files to exist
+  ansible.builtin.wait_for:
+    path: /opt/wazuh-docker/single-node/config/wazuh_indexer/certs/admin-key.pem
+    state: present
+    timeout: 600
 
 # Step 4: Start the Wazuh single-node stack in detached mode
 - name: Start the Wazuh single-node stack
