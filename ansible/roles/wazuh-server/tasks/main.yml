@@ -45,13 +45,6 @@
     state: present
   when: not wazuh_generated_certs.stat.exists
 
-- name: Wait for the generated certificate files to exist
-  ansible.builtin.wait_for:
-    path: /opt/wazuh-docker/single-node/config/wazuh_indexer_ssl_certs/admin-key.pem
-    state: present
-    timeout: 600
-  when: not wazuh_generated_certs.stat.exists
-
 # Step 4: Start the Wazuh single-node stack in detached mode
 - name: Start the Wazuh single-node stack
   community.docker.docker_compose_v2:
