@@ -1,2 +1,26 @@
 ---
 # tasks file for ansible-role-template
+
+- name: Ensure Apache is installed
+  apt:
+    name: apache2
+    state: present
+    update_cache: true
+
+- name: Ensure Apache is enabled and running
+  service:
+    name: apache2
+    state: started
+    enabled: true
+
+- name: Write a simple default index page
+  copy:
+    dest: /var/www/html/index.html
+    content: |
+      <html>
+      <body>
+      <h1>Welcome to the sample web server</h1>
+      <p>This host was provisioned with Ansible.</p>
+      </body>
+      </html>
+    mode: '0644'

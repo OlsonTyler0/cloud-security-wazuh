@@ -6,3 +6,5 @@ terraform/.terraform.lock.hcl
 .vagrant
 .claude
 CLAUDE.md
+.vscode
+.devcontainer

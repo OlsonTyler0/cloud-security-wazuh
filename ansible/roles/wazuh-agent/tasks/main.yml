@@ -1,2 +1,23 @@
 ---
 # tasks file for ansible-role-template
+
+- name: Install Wazuh agent package prerequisites
+  apt:
+    name:
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+    update_cache: true
+
+- name: Create placeholder Wazuh agent configuration
+  copy:
+    dest: /etc/ossec-init.conf
+    content: |
+      # Placeholder Wazuh agent config for local testing
+      WAZUH_MANAGER=127.0.0.1
+    mode: '0644'
+
+- name: Print a note that the Wazuh agent is configured as a placeholder
+  debug:
+    msg: "Wazuh agent role is installed as a placeholder; replace with the real package/configuration for your environment."

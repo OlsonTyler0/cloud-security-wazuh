@@ -4,3 +4,6 @@
 roles:
   - name: geerlingguy.docker
     version: "8.0.0"
+collections:
+  - name: community.docker
+    version: "4.2.0"

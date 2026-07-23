@@ -3,3 +3,39 @@
 
 # https://documentation.wazuh.com/current/installation-guide/wazuh-server/step-by-step.html
 
+# Step 1: Set max map count for Wazuh
+- name: Set max map count for Wazuh
+  ansible.posix.sysctl:
+    name: vm.max_map_count
+    value: 262144
+
+# step 2 - Clone the github repository
+
+- name: Clone the Wazuh repository
+  ansible.builtin.git:
+    repo: https://github.com/wazuh/wazuh-docker.git
+    dest: /opt/wazuh-docker
+    version: master
+
+# Step 3: Generate the self-signed certificate for Wazuh by running the container
+- name: Generate the self-signed certificate for Wazuh by running the container
+  community.docker.docker_compose_v2:
+    project_src: /opt/wazuh-docker/single-node
+    files:
+      - generate-indexer-certs.yml
+    services:
+      - generator
+    state: present
+
+- name: Wait for generated certificate files to exist
+  ansible.builtin.wait_for:
+    path: /opt/wazuh-docker/single-node/config/certs/indexer-key.pem
+    state: present
+    timeout: 600
+
+# Step 4: Start the Wazuh single-node stack in detached mode
+- name: Start the Wazuh single-node stack
+  community.docker.docker_compose_v2:
+    project_src: /opt/wazuh-docker/single-node
+    state: present
+
