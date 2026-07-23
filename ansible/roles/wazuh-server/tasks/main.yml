@@ -29,9 +29,21 @@
     msg: "The Wazuh certificate generator compose file was not found in the checked-out release."
   when: not wazuh_cert_generator_file.stat.exists
 
+- name: Ensure any stale generator compose project is removed
+  community.docker.docker_compose_v2:
+    project_src: /opt/wazuh-docker/single-node
+    project_name: single-node-generator
+    files:
+      - generate-indexer-certs.yml
+    services:
+      - generator
+    state: absent
+    remove_orphans: true
+
 - name: Generate Wazuh indexer certificates
   community.docker.docker_compose_v2:
     project_src: /opt/wazuh-docker/single-node
+    project_name: single-node-generator
     files:
       - generate-indexer-certs.yml
     services:
