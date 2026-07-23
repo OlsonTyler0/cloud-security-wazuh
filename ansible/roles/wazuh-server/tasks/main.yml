@@ -17,16 +17,6 @@
     dest: /opt/wazuh-docker
     version: main
 
-# Step 3: Generate the self-signed certificate for Wazuh by running the container
-- name: Generate the self-signed certificate for Wazuh by running the container
-  community.docker.docker_compose_v2:
-    project_src: /opt/wazuh-docker/single-node
-    files:
-      - generate-indexer-certs.yml
-    services:
-      - generator
-    state: present
-
 - name: Wait for generated certificate files to exist
   ansible.builtin.wait_for:
     path: /opt/wazuh-docker/single-node/config/certs/indexer-key.pem
