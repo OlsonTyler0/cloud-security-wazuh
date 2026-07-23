@@ -15,7 +15,7 @@
   ansible.builtin.git:
     repo: https://github.com/wazuh/wazuh-docker.git
     dest: /opt/wazuh-docker
-    version: master
+    version: main
 
 # Step 3: Generate the self-signed certificate for Wazuh by running the container
 - name: Generate the self-signed certificate for Wazuh by running the container
