@@ -17,6 +17,12 @@
     dest: /opt/wazuh-docker
     version: main
 
+- name: Replace Wazuh image tags with a published version
+  ansible.builtin.replace:
+    path: /opt/wazuh-docker/single-node/docker-compose.yml
+    regexp: 'wazuh/wazuh-(manager|indexer|dashboard):5\.1\.0'
+    replace: 'wazuh/wazuh-\1:4.14.6'
+
 # Step 4: Start the Wazuh single-node stack in detached mode
 - name: Start the Wazuh single-node stack
   community.docker.docker_compose_v2:
