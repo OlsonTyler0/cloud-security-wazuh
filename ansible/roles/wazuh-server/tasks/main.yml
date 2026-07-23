@@ -5,7 +5,7 @@
 
 # Step 1: Set max map count for Wazuh
 - name: Set max map count for Wazuh
-  ansible.posix.sysctl:
+  sysctl:
     name: vm.max_map_count
     value: 262144
 
