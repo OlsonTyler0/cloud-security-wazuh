@@ -24,21 +24,15 @@
     path: /opt/wazuh-docker/single-node/generate-indexer-certs.yml
   register: wazuh_cert_generator_file
 
+- name: Check whether generated Wazuh certs already exist
+  ansible.builtin.stat:
+    path: /opt/wazuh-docker/single-node/config/wazuh_indexer_ssl_certs/admin-key.pem
+  register: wazuh_generated_certs
+
 - name: Fail if the generator compose file is missing
   ansible.builtin.fail:
     msg: "The Wazuh certificate generator compose file was not found in the checked-out release."
   when: not wazuh_cert_generator_file.stat.exists
-
-- name: Ensure any stale generator compose project is removed
-  community.docker.docker_compose_v2:
-    project_src: /opt/wazuh-docker/single-node
-    project_name: single-node-generator
-    files:
-      - generate-indexer-certs.yml
-    services:
-      - generator
-    state: absent
-    remove_orphans: true
 
 - name: Generate Wazuh indexer certificates
   community.docker.docker_compose_v2:
@@ -49,12 +43,14 @@
     services:
       - generator
     state: present
+  when: not wazuh_generated_certs.stat.exists
 
 - name: Wait for the generated certificate files to exist
   ansible.builtin.wait_for:
-    path: /opt/wazuh-docker/single-node/config/wazuh_indexer/certs/admin-key.pem
+    path: /opt/wazuh-docker/single-node/config/wazuh_indexer_ssl_certs/admin-key.pem
     state: present
     timeout: 600
+  when: not wazuh_generated_certs.stat.exists
 
 # Step 4: Start the Wazuh single-node stack in detached mode
 - name: Start the Wazuh single-node stack
