@@ -8,8 +8,8 @@
     - web-server  # Provision out a web server.
 
   vars:
-    wazuh_agent_download_url: https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_arm64.deb
-    wazuh_agent_deb_path: /tmp/wazuh-agent_4.14.6-1_arm64.deb
+    wazuh_agent_download_url: https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_amd64.deb
+    wazuh_agent_deb_path: /tmp/wazuh-agent_4.14.6-1_amd64.deb
     wazuh_manager_address: '192.168.2.120'
     wazuh_agent_group: 'default'
     wazuh_agent_name: 'Agent-Test'
