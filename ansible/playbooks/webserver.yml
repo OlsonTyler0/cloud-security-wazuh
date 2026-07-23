@@ -6,9 +6,54 @@
 
   roles:
     - web-server  # Provision out a web server.
-    - wazuh-agent # send the Wazuh agent to the server
-    
+
+  vars:
+    wazuh_agent_download_url: https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_arm64.deb
+    wazuh_agent_deb_path: /tmp/wazuh-agent_4.14.6-1_arm64.deb
+    wazuh_manager_address: '192.168.2.120'
+    wazuh_agent_group: 'default'
+    wazuh_agent_name: 'Agent-Test'
+
   tasks:
+    - name: Check whether the Wazuh agent is already installed
+      ansible.builtin.shell: dpkg-query -W -f='${Status}' wazuh-agent 2>/dev/null || true
+      register: wazuh_agent_installed
+      changed_when: false
+
+    - name: Download the Wazuh agent package
+      ansible.builtin.get_url:
+        url: "{{ wazuh_agent_download_url }}"
+        dest: "{{ wazuh_agent_deb_path }}"
+        mode: '0644'
+        force: no
+      when: "'install ok installed' not in wazuh_agent_installed.stdout"
+
+    - name: Install the Wazuh agent package
+      ansible.builtin.command: dpkg -i "{{ wazuh_agent_deb_path }}"
+      environment:
+        WAZUH_MANAGER: "{{ wazuh_manager_address }}"
+        WAZUH_AGENT_GROUP: "{{ wazuh_agent_group }}"
+        WAZUH_AGENT_NAME: "{{ wazuh_agent_name }}"
+      args:
+        chdir: /tmp
+      when: "'install ok installed' not in wazuh_agent_installed.stdout"
+
+    - name: Reload systemd daemon
+      ansible.builtin.command: systemctl daemon-reload
+      when: "'install ok installed' not in wazuh_agent_installed.stdout"
+
+    - name: Enable wazuh-agent service
+      ansible.builtin.systemd:
+        name: wazuh-agent
+        enabled: true
+      when: "'install ok installed' not in wazuh_agent_installed.stdout"
+
+    - name: Start wazuh-agent service
+      ansible.builtin.systemd:
+        name: wazuh-agent
+        state: started
+      when: "'install ok installed' not in wazuh_agent_installed.stdout"
+
     - name: Provide debug output containing server address and port
       debug:
         msg: "Web server is running at {{ ansible_host }}:80"

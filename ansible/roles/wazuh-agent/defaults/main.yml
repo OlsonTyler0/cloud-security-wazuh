@@ -1,4 +1,0 @@
----
-# defaults file for ansible-role-template
-
-wazuh_agent_manager_ip: 127.0.0.1
