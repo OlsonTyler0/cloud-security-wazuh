@@ -11,4 +11,4 @@
   tasks:
     - name: Provide back debug output containing server address and port
       debug:
-        msg: "Wazuh server is running at {{ ansible_host }}:1514"
+        msg: "Wazuh server is running at https://{{ ansible_host }}"
