@@ -151,53 +151,20 @@ After installing you may access the wazuh server at the provided address by the 
 ## Roadmap
 
 Phase 0: Automation Phase
-- [ ] Begin building the infrastructure as code automation starting with the development of terraform operations for proxmox. Due to the lack of API permissions, this will not end up being deployed and will be a simulation of the activity for other platforms. 
-- [ ] Craft the deployment of the wazuh service via the use of ansible. 
-- [ ] Craft a deployment of an example web server via the use of ansible.  
+- [x] Begin building the infrastructure as code automation starting with the development of terraform operations for proxmox. Due to the lack of API permissions, this will not end up being deployed and will be a simulation of the activity for other platforms. 
+- [x] Craft the deployment of the wazuh service via the use of ansible. 
+- [x] Craft a deployment of an example web server via the use of ansible.  
 
 Phase 1: Deploy Phase
-- [ ] Create virtual machines via automation. Create manually if unable to access proxmox with Terraform 
-- [ ] Deploy automation to the production hosts. Monitor errors and fix as required. 
+- [x] Create virtual machines via automation. Create manually if unable to access proxmox with Terraform 
+- [x] Deploy automation to the production hosts. Monitor errors and fix as required. 
 
 Phase 2: Validation Phasae
+- [x] Complete a penetration test on the applicable hosts and prepare the report for submissino\
 
 See the [open issues](https://github.com/OlsonTyler0/cloud-security-wazuh/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Top contributors:
-
-<a href="https://github.com/OlsonTyler0/cloud-security-wazuh/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=OlsonTyler0/cloud-security-wazuh" alt="contrib.rocks image" />
-</a>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->
@@ -215,8 +182,6 @@ Project Link: [https://github.com/OlsonTyler0/cloud-security-wazuh](https://gith
 ## Acknowledgments
 
 * [Proxmox Terraform Provider](https://registry.terraform.io/providers/Telmate/proxmox)
-* []()
-* []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
