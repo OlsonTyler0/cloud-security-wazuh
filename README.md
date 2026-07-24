@@ -74,8 +74,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 This project will deploy Wazuh, an open-source Extended Detection and Response (XDR) and SIEM platform, The central wazuh server will contain three separate containers: The Manager, Indexer, and Dashboard. Upon a successful setup, a penetration test will be conducted on a protected endpoint to demonstrate detections and prevention of cyber threats. 
 
 Terraform code is a proof of concept and has not been tested in-depth. Vagrant was primarily utilized for the testing deployments. 
@@ -122,7 +120,19 @@ Prior to installation an ubuntu Cloud init image is required. to understand how 
 git clone https://github.com/OlsonTyler0/cloud-security-wazuh.git
 ```
 3. Initialize terraform
+```sh
+terraform init
+```
 4. Allow ansible to bootstrap after and provision the host
+
+If Manually running the playbooks:
+```sh
+git clone https://github.com/OlsonTyler0/cloud-security-wazuh.git
+cd cloud-security-wazuh/ansible
+ansible-galaxy install -r requirements.txt
+ansible-playbook -i inventory.ini ./playbooks/wazuh.yml
+ansible-playbook -i inventory.ini ./playbooks/webserver.yml
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
